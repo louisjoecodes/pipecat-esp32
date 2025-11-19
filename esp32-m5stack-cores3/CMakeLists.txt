@@ -1,26 +1,44 @@
 cmake_minimum_required(VERSION 3.19)
 
 if(NOT IDF_TARGET STREQUAL linux)
-  if(NOT DEFINED ENV{WIFI_SSID} OR NOT DEFINED ENV{WIFI_PASSWORD})
-    message(FATAL_ERROR "Env variables WIFI_SSID and WIFI_PASSWORD must be set")
+  # Check for WIFI_SSID
+  if(NOT DEFINED WIFI_SSID)
+    if(DEFINED ENV{WIFI_SSID})
+      set(WIFI_SSID "$ENV{WIFI_SSID}")
+    else()
+      message(FATAL_ERROR "WIFI_SSID must be set via cmake arg or environment variable")
+    endif()
   endif()
 
-  add_compile_definitions(WIFI_SSID="$ENV{WIFI_SSID}")
-  add_compile_definitions(WIFI_PASSWORD="$ENV{WIFI_PASSWORD}")
+  # Check for WIFI_PASSWORD
+  if(NOT DEFINED WIFI_PASSWORD)
+    if(DEFINED ENV{WIFI_PASSWORD})
+      set(WIFI_PASSWORD "$ENV{WIFI_PASSWORD}")
+    else()
+      message(FATAL_ERROR "WIFI_PASSWORD must be set via cmake arg or environment variable")
+    endif()
+  endif()
+
+  add_compile_definitions(WIFI_SSID=\"${WIFI_SSID}\")
+  add_compile_definitions(WIFI_PASSWORD=\"${WIFI_PASSWORD}\")
 endif()
 
-if(NOT DEFINED ENV{PIPECAT_SMALLWEBRTC_URL})
-  message(FATAL_ERROR "Env variable PIPECAT_SMALLWEBRTC_URL must be set")
+# Check for PIPECAT_SMALLWEBRTC_URL
+if(NOT DEFINED PIPECAT_SMALLWEBRTC_URL)
+  if(DEFINED ENV{PIPECAT_SMALLWEBRTC_URL})
+    set(PIPECAT_SMALLWEBRTC_URL "$ENV{PIPECAT_SMALLWEBRTC_URL}")
+  else()
+    message(FATAL_ERROR "PIPECAT_SMALLWEBRTC_URL must be set via cmake arg or environment variable")
+  endif()
 endif()
 
 if(DEFINED ENV{LOG_DATACHANNEL_MESSAGES})
   add_compile_definitions(LOG_DATACHANNEL_MESSAGES="1")
 endif()
 
-add_compile_definitions(PIPECAT_SMALLWEBRTC_URL="$ENV{PIPECAT_SMALLWEBRTC_URL}")
+add_compile_definitions(PIPECAT_SMALLWEBRTC_URL=\"${PIPECAT_SMALLWEBRTC_URL}\")
 
-set(COMPONENTS src)
-set(EXTRA_COMPONENT_DIRS "src" "../esp32-s3-box-3/components/srtp" "../esp32-s3-box-3/components/peer" "../esp32-s3-box-3/components/esp-libopus")
+list(APPEND EXTRA_COMPONENT_DIRS "src" "../esp32-s3-box-3/components/srtp" "../esp32-s3-box-3/components/peer" "../esp32-s3-box-3/components/esp-libopus")
 
 if(IDF_TARGET STREQUAL linux)
   add_compile_definitions(LINUX_BUILD=1)
@@ -32,4 +50,4 @@ if(IDF_TARGET STREQUAL linux)
 endif()
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(src)
+project(elevenlabs_esp32)

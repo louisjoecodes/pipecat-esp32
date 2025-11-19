@@ -1,0 +1,20 @@
+#ifndef WIFI_CREDS_H
+#define WIFI_CREDS_H
+
+// =========================================================
+// COPY THIS FILE TO "wifi_creds.h" AND FILL IN YOUR DETAILS
+// =========================================================
+
+// 1. WiFi Credentials
+//    (For Open networks, leave password as empty string "")
+#define WIFI_SSID "YourWiFiName"
+#define WIFI_PASSWORD "YourWiFiPassword"
+
+// 2. Pipecat Server URL
+//    Replace YOUR_IP with your computer's local IP address.
+//    Format: "http://<IP>:7860/api/offer"
+//    Example: "http://192.168.1.50:7860/api/offer"
+#define PIPECAT_SERVER_URL "http://YOUR_IP:7860/api/offer"
+
+#endif // WIFI_CREDS_H
+

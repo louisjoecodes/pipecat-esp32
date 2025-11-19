@@ -1,0 +1,14 @@
+# PlatformIO
+.pio/
+.vscode/
+
+# Espressif / ESP-IDF
+sdkconfig
+sdkconfig.*
+build/
+
+# Private Credentials
+src/wifi_creds.h
+
+# OS
+.DS_Store
