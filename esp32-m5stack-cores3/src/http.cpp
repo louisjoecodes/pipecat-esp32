@@ -5,6 +5,9 @@
 
 #include "main.h"
 
+// HARDCODED URL FOR HACKATHON
+#define HACKATHON_SERVER_URL "http://YOUR_LAPTOP_IP:7860/api/offer"
+
 #ifndef MIN
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #endif
@@ -74,7 +77,7 @@ void pipecat_http_request(char *offer, char *answer) {
   esp_http_client_config_t config;
   memset(&config, 0, sizeof(esp_http_client_config_t));
 
-  config.url = PIPECAT_SMALLWEBRTC_URL;
+  config.url = HACKATHON_SERVER_URL;
   config.event_handler = http_event_handler;
   config.timeout_ms = HTTP_TIMEOUT_MS;
   config.user_data = answer;

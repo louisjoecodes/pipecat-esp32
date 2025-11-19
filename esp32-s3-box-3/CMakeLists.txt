@@ -1,42 +1,23 @@
 cmake_minimum_required(VERSION 3.19)
 
 if(NOT IDF_TARGET STREQUAL linux)
-  # Check for WIFI_SSID
-  if(NOT DEFINED WIFI_SSID)
-    if(DEFINED ENV{WIFI_SSID})
-      set(WIFI_SSID "$ENV{WIFI_SSID}")
-    else()
-      message(FATAL_ERROR "WIFI_SSID must be set via cmake arg or environment variable")
-    endif()
-  endif()
-
-  # Check for WIFI_PASSWORD
-  if(NOT DEFINED WIFI_PASSWORD)
-    if(DEFINED ENV{WIFI_PASSWORD})
-      set(WIFI_PASSWORD "$ENV{WIFI_PASSWORD}")
-    else()
-      message(FATAL_ERROR "WIFI_PASSWORD must be set via cmake arg or environment variable")
-    endif()
-  endif()
-
-  add_compile_definitions(WIFI_SSID=\"${WIFI_SSID}\")
-  add_compile_definitions(WIFI_PASSWORD=\"${WIFI_PASSWORD}\")
+  # We are now using hardcoded credentials in wifi.cpp
+  # But we define dummy values here so the build doesn't fail if the code still refs them
+  add_compile_definitions(WIFI_SSID="ignored")
+  add_compile_definitions(WIFI_PASSWORD="ignored")
 endif()
 
 # Check for PIPECAT_SMALLWEBRTC_URL
 if(NOT DEFINED PIPECAT_SMALLWEBRTC_URL)
-  if(DEFINED ENV{PIPECAT_SMALLWEBRTC_URL})
-    set(PIPECAT_SMALLWEBRTC_URL "$ENV{PIPECAT_SMALLWEBRTC_URL}")
-  else()
-    message(FATAL_ERROR "PIPECAT_SMALLWEBRTC_URL must be set via cmake arg or environment variable")
-  endif()
+  # Default dummy URL if not provided (since we hardcoded it in http.cpp)
+  set(PIPECAT_SMALLWEBRTC_URL "http://ignored")
 endif()
 
 if(DEFINED ENV{LOG_DATACHANNEL_MESSAGES})
   add_compile_definitions(LOG_DATACHANNEL_MESSAGES="1")
 endif()
 
-add_compile_definitions(PIPECAT_SMALLWEBRTC_URL=\"${PIPECAT_SMALLWEBRTC_URL}\")
+add_compile_definitions(PIPECAT_SMALLWEBRTC_URL="${PIPECAT_SMALLWEBRTC_URL}")
 
 list(APPEND EXTRA_COMPONENT_DIRS "src" "components/srtp" "components/peer" "components/esp-libopus")
 

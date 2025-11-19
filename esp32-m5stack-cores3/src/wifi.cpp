@@ -8,6 +8,10 @@
 
 #include "main.h"
 
+// HARDCODED CREDENTIALS FOR HACKATHON
+#define HACKATHON_WIFI_SSID "YourWiFiName"
+#define HACKATHON_WIFI_PASS "YourWiFiPassword"
+
 static bool g_wifi_connected = false;
 
 static void pipecat_event_handler(void *arg, esp_event_base_t event_base,
@@ -42,12 +46,12 @@ void pipecat_init_wifi() {
   ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
   ESP_ERROR_CHECK(esp_wifi_start());
 
-  ESP_LOGI(LOG_TAG, "Connecting to WiFi SSID: %s", WIFI_SSID);
+  ESP_LOGI(LOG_TAG, "Connecting to WiFi SSID: %s", HACKATHON_WIFI_SSID);
   wifi_config_t wifi_config;
   memset(&wifi_config, 0, sizeof(wifi_config));
-  strncpy((char *)wifi_config.sta.ssid, (char *)WIFI_SSID,
+  strncpy((char *)wifi_config.sta.ssid, (char *)HACKATHON_WIFI_SSID,
           sizeof(wifi_config.sta.ssid));
-  strncpy((char *)wifi_config.sta.password, (char *)WIFI_PASSWORD,
+  strncpy((char *)wifi_config.sta.password, (char *)HACKATHON_WIFI_PASS,
           sizeof(wifi_config.sta.password));
 
   ESP_ERROR_CHECK(esp_wifi_set_config(
